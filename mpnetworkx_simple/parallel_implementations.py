@@ -189,6 +189,8 @@ def parallel_pagerank(G, alpha=0.85, max_iter=100, tol=1e-6, num_threads=None, *
 
 def parallel_all_pairs_dijkstra_path_length(G, processes=None, **kwargs):
     """Параллельная версия all_pairs_dijkstra_path_length."""
+    kwargs.pop('sample_size', None)
+
     if processes is None:
         processes = max(2, mp.cpu_count() // 2)
     nodes = list(G.nodes())
