@@ -1,6 +1,6 @@
 """
 Тест betweenness centrality с использованием mpnetworkx_simple
-Сравнивает последовательную версию NetworkX и параллельную (mpnetworkx_simple)
+Сравнивает последовательную версию NetworkX  mpnetworkx_simple
 """
 
 import urllib.request
@@ -55,12 +55,13 @@ def load_graph(filename):
     return G
 
 def test_networkx_all_nodes(G):
-    """Последовательный NetworkX (все узлы)"""
+    """Последовательный NetworkX (все узлы) с принудительным отключением параллелизации"""
     print("\n" + "="*60)
     print("ТЕСТ: Чистый NetworkX (последовательно, ВСЕ узлы)")
     print("="*60)
     start = time.time()
-    bc = nx.betweenness_centrality(G, normalized=True)
+    # use_parallel=False заставляет использовать оригинальную последовательную реализацию
+    bc = nx.betweenness_centrality(G, use_parallel=False, normalized=True)
     elapsed = time.time() - start
     print(f"Время выполнения: {elapsed:.2f} сек")
     top = sorted(bc.items(), key=lambda x: x[1], reverse=True)[:10]
@@ -123,7 +124,7 @@ def main():
         print(f"  Только NetworkX: {set(nx_ids) - set(mp_ids)}")
         print(f"  Только mpnetworkx: {set(mp_ids) - set(nx_ids)}")
 
-    # Восстанавливаем оригинальный NetworkX (если нужно)
+    # Восстанавливаем оригинальный NetworkX
     mpnetworkx_simple.restore_original()
     print("\nТест завершён.")
 
