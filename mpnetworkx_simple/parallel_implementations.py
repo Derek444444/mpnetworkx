@@ -5,7 +5,7 @@ import pickle
 import random
 import warnings
 from collections import deque
-
+from .performance_boost import get_cached_graph, get_shared_executor
 # Вспомогательные функции для параллельной обработки 
 def _process_closeness_chunk(chunk, graph_data, kwargs):
     """Обработка чанка для closeness centrality (глобальная, для pickle)."""
